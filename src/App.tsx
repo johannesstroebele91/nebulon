@@ -1,6 +1,15 @@
 import React from "react";
-import { Layout, Menu, Typography, Space } from "antd";
+import {
+  Layout,
+  Menu,
+  Typography,
+  Space,
+  Table,
+  Tooltip,
+  Pagination,
+} from "antd";
 import Title from "antd/es/typography/Title";
+import { ColumnsType } from "antd/es/table";
 
 const { Header, Content, Footer } = Layout;
 const { Text, Link, Paragraph } = Typography;
@@ -94,6 +103,50 @@ const App: React.FC = () => {
     },
   ];
 
+  interface User {
+    id: number;
+    name: string;
+    age: number;
+  }
+
+  const columns: ColumnsType<User> = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text) => (
+        <Link href="https://ant.design" target="_blank">
+          {text}
+        </Link>
+      ),
+      width: 150,
+    },
+    {
+      title: "Age",
+      dataIndex: "age",
+      key: "age",
+      width: 80,
+    },
+  ];
+
+  const user: User[] = [
+    {
+      id: 1,
+      name: "John Brown",
+      age: 32,
+    },
+    {
+      id: 2,
+      name: "Jim Green",
+      age: 42,
+    },
+    {
+      id: 3,
+      name: "Joe Black",
+      age: 32,
+    },
+  ];
+
   const randomQuoteId = Math.floor(Math.random() * 10) + 1;
   return (
     <Layout>
@@ -120,6 +173,8 @@ const App: React.FC = () => {
             This quote was picked by ${quotes[randomQuoteId].userId}
           </Link>
         </Space>
+        <Title type="secondary">Board</Title>
+        <Table columns={columns} dataSource={user} />
         <Paragraph>
           Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
           nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
