@@ -1,7 +1,5 @@
-import "./App.css";
-
-function App() {
-  return <div>Nebulo</div>;
-}
+const App: React.FC = () => {
+  return <>Nebulon</>;
+};
 
 export default App;
