@@ -3,7 +3,6 @@ import { Layout, Menu, Typography, Space, Table } from "antd";
 import Title from "antd/es/typography/Title";
 import { ColumnsType } from "antd/es/table";
 import { quotes } from "./data/quotes";
-import { User, users } from "./data/users";
 
 const { Header, Content, Footer } = Layout;
 const { Text, Link, Paragraph } = Typography;
@@ -20,27 +19,66 @@ const App: React.FC = () => {
     },
   ];
 
-  const columns: ColumnsType<User> = [
+  const randomQuoteId = Math.floor(Math.random() * 10) + 1;
+
+  function formatDuration(minutes: number): string {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    const formattedMinutes =
+      remainingMinutes < 10 ? `0${remainingMinutes}` : `${remainingMinutes}`;
+    return `${hours}:${formattedMinutes}`;
+  }
+
+  const columns: ColumnsType<RowType> = [
+    {
+      title: "Rank",
+      dataIndex: "rank",
+      key: "rank",
+      width: 80,
+    },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
       render: (text) => (
-        <Link href="https://ant.design" target="_blank">
+        <Link href="https://link-to-profile-page.de" target="_blank">
           {text}
         </Link>
       ),
       width: 150,
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
-      width: 80,
+      title: "Workout Time",
+      dataIndex: "workoutTimeInMinutes",
+      key: "workoutTimeInMinutes",
+      width: 100,
     },
   ];
 
-  const randomQuoteId = Math.floor(Math.random() * 10) + 1;
+  interface RowType {
+    rank: number;
+    name: string;
+    workoutTimeInMinutes: string;
+  }
+
+  const rows: RowType[] = [
+    {
+      rank: 1,
+      name: "John Brown",
+      workoutTimeInMinutes: formatDuration(90),
+    },
+    {
+      rank: 2,
+      name: "Jim Green",
+      workoutTimeInMinutes: formatDuration(60),
+    },
+    {
+      rank: 3,
+      name: "Joe Black",
+      workoutTimeInMinutes: formatDuration(30),
+    },
+  ];
+
   return (
     <Layout>
       <Header style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}>
@@ -61,45 +99,10 @@ const App: React.FC = () => {
         <Title>Nebulon</Title>
         <Space style={{ paddingBottom: 18 }}>
           <Text italic>{quotes[randomQuoteId].quote}</Text>
-          <Text>{quotes[randomQuoteId].author}</Text>
-          <Link href="https://ant.design" target="_blank">
-            This quote was picked by ${quotes[randomQuoteId].userId}
-          </Link>
+          <Text strong>{quotes[randomQuoteId].author}</Text>
         </Space>
         <Title type="secondary">Board</Title>
-        <Table columns={columns} dataSource={users} />
-        <Paragraph>
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-          rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-          ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-          sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-          dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-          et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-          takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-          amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-          invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-          At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-          kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-          amet.
-        </Paragraph>
-        <Paragraph>
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-          rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-          ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-          sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-          dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-          et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-          takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-          amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-          invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-          At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-          kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-          amet.
-        </Paragraph>
+        <Table columns={columns} dataSource={rows} />
         <Paragraph>
           Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
           nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
@@ -134,7 +137,7 @@ const App: React.FC = () => {
         </Paragraph>
       </Content>
       <Footer style={{ textAlign: "center" }}>
-        Ant Design ©2023 Created by Ant UED
+        Johannes Ströbele ©2023, all rights reserved
       </Footer>
     </Layout>
   );
